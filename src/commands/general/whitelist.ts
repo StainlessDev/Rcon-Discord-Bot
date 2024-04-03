@@ -4,10 +4,12 @@ import embed from "@utils/embed";
 import cf from "@configs/embed.json";
 import { ignCheck } from "@utils/igncheck";
 import { APIEmbed } from "discord.js";
+import { whitelistrole_ID } from "@configs/discord.json";
 
 export default new Command({
     name: "whitelist",
     description: "Whitelist a user",
+    roles: [],
     options: [
         {
             name: "ign",
