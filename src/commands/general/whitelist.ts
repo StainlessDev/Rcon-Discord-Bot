@@ -9,7 +9,7 @@ import { whitelistrole_ID } from "@configs/discord.json";
 export default new Command({
     name: "whitelist",
     description: "Whitelist a user",
-    roles: [],
+    roles: [whitelistrole_ID],
     options: [
         {
             name: "ign",
