@@ -1,1 +1,1 @@
-# Typescript discord template
+# Discord bot for Rcon connections

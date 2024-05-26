@@ -2,17 +2,16 @@ import { Command } from "@structures/command";
 import { rcon } from "@utils/rcon";
 import embed from "@utils/embed";
 import cf from "@configs/embed.json";
-import { ignCheck } from "@utils/igncheck";
 import { APIEmbed } from "discord.js";
 import { whitelistrole_ID } from "@configs/discord.json";
+import { Steam64IDvaildator } from "@utils/steamidvalidator";
 
 export default new Command({
     name: "whitelist",
     description: "Whitelist a user",
-    roles: [whitelistrole_ID],
     options: [
         {
-            name: "ign",
+            name: "link",
             description: "The user to whitelist",
             type: 3,
             required: true
@@ -21,17 +20,15 @@ export default new Command({
     run: async(client, interaction, args) => {
         await interaction.deferReply();
         let response
-        const ign = args.getString("ign");
+        const Steamlink = args.getString("link");
+        let user: any = await Steam64IDvaildator(Steamlink ?? "");
 
-        let user = await ignCheck(ign ?? "");
-        
-        if(user == "Success"){
-
+        if (user[1] == "Success") {
             rcon.connect().then(async () => {
-                await rcon.send(`whitelist add ${ign}`);
+                await rcon.send(`oxide.grant user ${user[0]} whitelist.allow`);
                 response = embed({
                     title: "Whitelist",
-                    description: `Successfully whitelisted \`${ign}\``,
+                    description: `Successfully whitelisted \`${user[0]}\``,
                     color: cf.successColor
                 });
                 rcon.disconnect();
@@ -50,5 +47,6 @@ export default new Command({
             
             return await interaction.followUp({ embeds: [user as APIEmbed] });
         }
+    
     }
 });
